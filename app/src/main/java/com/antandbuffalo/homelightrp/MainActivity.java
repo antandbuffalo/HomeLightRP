@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         btnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Light light = mainActivityViewModel.buildLightRequest("on");
+                Light light = mainActivityViewModel.buildLightRequest("on", speed);
                 mainActivityViewModel.changeLightStatus(light);
             }
         });
@@ -78,25 +79,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
             }
         });
 
-        SeekBar speedBar = findViewById(R.id.speedBar);
-        speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                Log.d("speedbarchanged", i + " " + b);
-                Light lightReq = mainActivityViewModel.buildLightRequest("on", i);
-                mainActivityViewModel.changeLightSpeed(lightReq);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        ProgressBar speedIndicator = findViewById(R.id.speedInd);
 
         Button btnInc = findViewById(R.id.increase);
         btnInc.setOnClickListener(new View.OnClickListener() {

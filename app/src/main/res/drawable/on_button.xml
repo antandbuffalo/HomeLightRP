@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"
-        android:drawable="@color/onButtonPressed" /> <!-- pressed -->
-    <item android:state_focused="true"
-        android:drawable="@color/onButtonPressed" /> <!-- focused -->
-    <item android:drawable="@color/onButton" />
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"> <!-- pressed -->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <solid android:color="@color/onButtonPressed" />
+            <corners android:bottomLeftRadius="40sp" android:bottomRightRadius="40sp" android:topLeftRadius="40sp" android:topRightRadius="40sp" />
+        </shape>
+    </item>
+    <item android:state_focused="true"> <!-- focused test for git-->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <solid android:color="@color/onButtonPressed" />
+            <corners android:bottomLeftRadius="40sp" android:bottomRightRadius="40sp" android:topLeftRadius="40sp" android:topRightRadius="40sp" />
+        </shape>
+    </item>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <solid android:color="@color/onButton" />
+            <corners android:bottomLeftRadius="40sp" android:bottomRightRadius="40sp" android:topLeftRadius="40sp" android:topRightRadius="40sp" />
+        </shape>
+    </item>
 </selector>

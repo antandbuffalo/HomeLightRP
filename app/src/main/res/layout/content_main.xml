@@ -10,48 +10,50 @@
 
     <Button
         android:id="@+id/btnOn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="280dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/on_button"
         android:enabled="true"
         android:text="ON"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        android:elevation="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/speedInd" />
 
     <Button
         android:id="@+id/btnOff"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="280dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="80dp"
         android:background="@drawable/off_button"
         android:enabled="true"
         android:text="OFF"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/btnOn"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedInd" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_width="165dp"
+        android:layout_height="26dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Connected"
+        android:text="Connection Status"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/statusView"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="22dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
         android:background="@android:color/holo_red_dark"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -92,62 +94,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="17dp"
-        android:text="Speed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
-
-    <SeekBar
-        android:id="@+id/speedBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="281dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="9dp"
-        android:max="3"
-        android:progress="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
-
     <Button
         android:id="@+id/decrease"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="30dp"
         android:text="-"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
 
     <Button
         android:id="@+id/increase"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="45dp"
         android:text="+"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
 
     <TextView
         android:id="@+id/lblSpeed"
         android:layout_width="92dp"
         android:layout_height="38dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="38dp"
         android:layout_marginEnd="50dp"
         android:text="Speed"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/increase"
+        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toEndOf="@+id/decrease"
-        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
+
+    <ProgressBar
+        android:id="@+id/speedInd"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:max="5"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="198dp" />
 
 </android.support.constraint.ConstraintLayout>
