@@ -2,20 +2,20 @@
 <selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"> <!-- pressed -->
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-            <solid android:color="@color/decButtonPressed" />
-            <corners android:bottomLeftRadius="10sp" android:bottomRightRadius="10sp" android:topLeftRadius="10sp" android:topRightRadius="10sp" />
+            <solid android:color="@color/defaultButtonPressed" />
+            <corners android:bottomLeftRadius="5sp" android:bottomRightRadius="5sp" android:topLeftRadius="5sp" android:topRightRadius="5sp" />
         </shape>
     </item>
     <item android:state_focused="true"> <!-- focused test for git-->
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-            <solid android:color="@color/decButtonPressed" />
-            <corners android:bottomLeftRadius="10sp" android:bottomRightRadius="10sp" android:topLeftRadius="10sp" android:topRightRadius="10sp" />
+            <solid android:color="@color/defaultButtonPressed" />
+            <corners android:bottomLeftRadius="5sp" android:bottomRightRadius="5sp" android:topLeftRadius="5sp" android:topRightRadius="5sp" />
         </shape>
     </item>
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-            <solid android:color="@color/decButton" />
-            <corners android:bottomLeftRadius="10sp" android:bottomRightRadius="10sp" android:topLeftRadius="10sp" android:topRightRadius="10sp" />
+            <solid android:color="@color/defaultButton" />
+            <corners android:bottomLeftRadius="5sp" android:bottomRightRadius="5sp" android:topLeftRadius="5sp" android:topRightRadius="5sp" />
         </shape>
     </item>
 </selector>

@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         Log.d("lightStatusChanged", light.getStatus());
         TextView lastStatus = findViewById(R.id.lastStatus);
         lastStatus.setText("Status: " + light.getStatus() + " Interval: " + light.getInterval());
+
+        TextView lblSpeed = findViewById(R.id.lblSpeed);
+        lblSpeed.setText("Speed: " + speed);
     }
 
     @Override

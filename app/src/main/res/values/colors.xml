@@ -8,4 +8,11 @@
     <color name="onButtonPressed">#32CD32</color>
     <color name="offButton">#FF5722</color>
     <color name="offButtonPressed">#BF360C</color>
+
+    <color name="decButton">#008000</color>
+    <color name="decButtonPressed">#006400</color>
+
+    <color name="defaultButton">#A0522D</color>
+    <color name="defaultButtonPressed">#8B4513</color>
+
 </resources>

@@ -13,30 +13,30 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/on_button"
+        android:elevation="5dp"
         android:enabled="true"
         android:text="ON"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        android:elevation="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speedInd" />
+        app:layout_constraintBottom_toTopOf="@+id/lastStatus"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnOff"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/off_button"
+        android:elevation="5dp"
         android:enabled="true"
         android:text="OFF"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:elevation="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speedInd" />
+        app:layout_constraintBottom_toTopOf="@+id/lastStatus"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -64,8 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="40dp"
-        android:text="TextView"
+        android:layout_marginBottom="25dp"
+        android:text="Status"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,11 +87,16 @@
 
     <Button
         android:id="@+id/setIp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="56dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/default_button"
         android:text="Set"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ipAddress"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -99,9 +104,10 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/dec_button"
         android:text="-"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
@@ -110,7 +116,7 @@
         android:id="@+id/increase"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="45dp"
         android:background="@drawable/inc_button"
         android:text="+"
@@ -124,7 +130,7 @@
         android:layout_width="92dp"
         android:layout_height="38dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="50dp"
         android:text="Speed"
         android:textAlignment="center"
@@ -140,7 +146,7 @@
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="45dp"
         android:max="5"
         android:progress="0"
