@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -70,16 +71,16 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         });
 
         Switch onOff = findViewById(R.id.switchOnOff);
-        onOff.setOnClickListener(new View.OnClickListener() {
+        onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if(onOff.isChecked()) {
-                    Light light = mainActivityViewModel.buildLightRequest("on", speed);
-                    mainActivityViewModel.changeLightStatus(light);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked) {
+                    Light lightReq = mainActivityViewModel.buildLightRequest("on", speed);
+                    mainActivityViewModel.changeLightSpeed(lightReq);
                 }
                 else {
-                    Light light = mainActivityViewModel.buildLightRequest("off", speed);
-                    mainActivityViewModel.changeLightStatus(light);
+                    Light lightReq = mainActivityViewModel.buildLightRequest("off", speed);
+                    mainActivityViewModel.changeLightSpeed(lightReq);
                 }
             }
         });
