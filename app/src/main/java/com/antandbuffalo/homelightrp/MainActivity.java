@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.antandbuffalo.homelightrp.handlers.SessionHandler;
@@ -48,6 +49,41 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         mainActivityViewModel.getLightStatus();
         //mainActivityViewModel.createSession();
 
+        SeekBar speedBar = findViewById(R.id.speedBar);
+        speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                speed = i;
+                Light lightReq = mainActivityViewModel.buildLightRequest("on", speed);
+                mainActivityViewModel.changeLightSpeed(lightReq);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        Switch onOff = findViewById(R.id.switchOnOff);
+        onOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onOff.isChecked()) {
+                    Light light = mainActivityViewModel.buildLightRequest("on", speed);
+                    mainActivityViewModel.changeLightStatus(light);
+                }
+                else {
+                    Light light = mainActivityViewModel.buildLightRequest("off", speed);
+                    mainActivityViewModel.changeLightStatus(light);
+                }
+            }
+        });
+
         Button btnSetIp = findViewById(R.id.setIp);
         btnSetIp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,25 +97,23 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         });
 
 
-        Button btnOn = findViewById(R.id.btnOn);
-        btnOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Light light = mainActivityViewModel.buildLightRequest("on", speed);
-                mainActivityViewModel.changeLightStatus(light);
-            }
-        });
-
-        Button btnOff = findViewById(R.id.btnOff);
-        btnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Light light = mainActivityViewModel.buildLightRequest("off");
-                mainActivityViewModel.changeLightStatus(light);
-            }
-        });
-
-        ProgressBar speedIndicator = findViewById(R.id.speedInd);
+//        Button btnOn = findViewById(R.id.btnOn);
+//        btnOn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Light light = mainActivityViewModel.buildLightRequest("on", speed);
+//                mainActivityViewModel.changeLightStatus(light);
+//            }
+//        });
+//
+//        Button btnOff = findViewById(R.id.btnOff);
+//        btnOff.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Light light = mainActivityViewModel.buildLightRequest("off");
+//                mainActivityViewModel.changeLightStatus(light);
+//            }
+//        });
 
         Button btnInc = findViewById(R.id.increase);
         btnInc.setOnClickListener(new View.OnClickListener() {
@@ -132,11 +166,11 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         session = sess;
         System.out.println("Token is " + session.getToken());
         TextView statusView = findViewById(R.id.statusView);
-        Button onButton = findViewById(R.id.btnOn);
-        Button offButton = findViewById(R.id.btnOff);
-        statusView.setBackgroundColor(getResources().getColor(R.color.onButtonPressed));
-        onButton.setEnabled(true);
-        offButton.setEnabled(true);
+//        Button onButton = findViewById(R.id.btnOn);
+//        Button offButton = findViewById(R.id.btnOff);
+//        statusView.setBackgroundColor(getResources().getColor(R.color.onButtonPressed));
+//        onButton.setEnabled(true);
+//        offButton.setEnabled(true);
     }
 
     @Override
@@ -154,6 +188,11 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
 
         TextView lblSpeed = findViewById(R.id.lblSpeed);
         lblSpeed.setText("Speed: " + speed);
+
+        SeekBar speedIndicator = findViewById(R.id.speedBar);
+        speedIndicator.setProgress(speed);
+
+        setStatus(light);
     }
 
     @Override
@@ -170,5 +209,17 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         lastStatus.setText("Status: " + light.getStatus() + " Interval: " + light.getInterval());
         speed = light.getSpeed() != null? light.getSpeed() : 0;
         lblSpeed.setText("Speed: " + speed);
+
+        SeekBar speedIndicator = findViewById(R.id.speedBar);
+        speedIndicator.setProgress(speed);
+
+        setStatus(light);
+    }
+
+    public void setStatus(Light light) {
+        Switch onOff = findViewById(R.id.switchOnOff);
+        if(light.getStatus().equalsIgnoreCase("on")) {
+            onOff.setChecked(true);
+        }
     }
 }

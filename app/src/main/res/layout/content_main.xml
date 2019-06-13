@@ -8,36 +8,6 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button
-        android:id="@+id/btnOn"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/on_button"
-        android:elevation="5dp"
-        android:enabled="true"
-        android:text="ON"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/lastStatus"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnOff"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/off_button"
-        android:elevation="5dp"
-        android:enabled="true"
-        android:text="OFF"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/lastStatus"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="165dp"
@@ -140,18 +110,33 @@
         app:layout_constraintStart_toEndOf="@+id/decrease"
         app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
 
-    <ProgressBar
-        android:id="@+id/speedInd"
-        style="?android:attr/progressBarStyleHorizontal"
+    <SeekBar
+        android:id="@+id/speedBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_height="40dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="45dp"
         android:max="5"
         android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/decrease" />
+
+    <Switch
+        android:id="@+id/switchOnOff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="60dp"
+        android:switchMinWidth="40dp"
+        android:switchPadding="10dp"
+        android:text="Light "
+        android:textOff="OFF"
+        android:textOn="ON"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 
 </android.support.constraint.ConstraintLayout>
