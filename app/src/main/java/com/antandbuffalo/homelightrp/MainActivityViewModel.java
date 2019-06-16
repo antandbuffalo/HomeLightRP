@@ -172,6 +172,29 @@ public class MainActivityViewModel extends ViewModel {
                         Log.d("Speed-onError", e.getMessage());
                     }
                 });
+    };
+
+    public void changeMode(Light light) {
+        rpService.changeMode(light)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Light>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Light lightSuccess) {
+                        Log.d("Mode-onSuccess", lightSuccess.getMode());
+                        sessionHandler.lightStatusChanged(lightSuccess);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Mode-onError", e.getMessage());
+                    }
+                });
     }
 
     public void getLightStatus() {
@@ -209,6 +232,18 @@ public class MainActivityViewModel extends ViewModel {
     public Light buildLightRequest(String status) {
         Light light = new Light();
         light.setStatus(status);
+        return light;
+    }
+
+    public Light buildSpeedRequest(int speed) {
+        Light light = new Light();
+        light.setSpeed(speed);
+        return light;
+    }
+
+    public Light buildModeRequest(String mode) {
+        Light light = new Light();
+        light.setMode(mode);
         return light;
     }
 

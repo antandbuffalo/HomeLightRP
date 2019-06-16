@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:switchMinWidth="40dp"
         android:switchPadding="10dp"
         android:text="Light "
@@ -138,5 +138,20 @@
         android:textOn="ON"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+
+    <Switch
+        android:id="@+id/nightModeSwitch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="30dp"
+        android:switchMinWidth="40dp"
+        android:switchPadding="10dp"
+        android:text="Night Mode"
+        android:textOff="OFF"
+        android:textOn="ON"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchOnOff" />
 
 </android.support.constraint.ConstraintLayout>

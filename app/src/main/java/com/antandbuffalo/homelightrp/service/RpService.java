@@ -17,8 +17,11 @@ public interface RpService {
     @POST("light")
     Single<Light> changeStatus(@Body Light light);
 
-    @POST("light")
+    @POST("speed")
     Single<Light> changeSpeed(@Body Light light);
+
+    @POST("mode")
+    Single<Light> changeMode(@Body Light light);
 
     @GET("light")
     Single<Light> getStatus();

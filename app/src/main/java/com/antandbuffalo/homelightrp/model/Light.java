@@ -15,7 +15,15 @@ public class Light {
     @Expose
     private Integer speed;
 
+    @SerializedName("mode")
+    @Expose
+    private String mode;
+
+
     public String getStatus() {
+        if(status == null) {
+            status = "off";
+        }
         return status;
     }
 
@@ -37,5 +45,16 @@ public class Light {
 
     public void setSpeed(Integer speed) {
         this.speed = speed;
+    }
+
+    public String getMode() {
+        if(mode == null) {
+            mode = "default";
+        }
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,12 +21,12 @@ import com.antandbuffalo.homelightrp.handlers.SessionHandler;
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
 import com.antandbuffalo.homelightrp.model.Session;
-import com.antandbuffalo.homelightrp.service.StorageService;
 
 public class MainActivity extends AppCompatActivity implements SessionHandler {
     Session session;
     MainActivityViewModel mainActivityViewModel;
     int speed = 0;
+    Switch onOff, nightModeSwitch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 speed = i;
-                Light lightReq = mainActivityViewModel.buildLightRequest("on", speed);
+                Light lightReq = mainActivityViewModel.buildSpeedRequest(speed);
                 mainActivityViewModel.changeLightSpeed(lightReq);
             }
 
@@ -70,17 +69,17 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
             }
         });
 
-        Switch onOff = findViewById(R.id.switchOnOff);
+        onOff = findViewById(R.id.switchOnOff);
         onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked) {
                     Light lightReq = mainActivityViewModel.buildLightRequest("on", speed);
-                    mainActivityViewModel.changeLightSpeed(lightReq);
+                    mainActivityViewModel.changeLightStatus(lightReq);
                 }
                 else {
                     Light lightReq = mainActivityViewModel.buildLightRequest("off", speed);
-                    mainActivityViewModel.changeLightSpeed(lightReq);
+                    mainActivityViewModel.changeLightStatus(lightReq);
                 }
             }
         });
@@ -97,31 +96,12 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
             }
         });
 
-
-//        Button btnOn = findViewById(R.id.btnOn);
-//        btnOn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Light light = mainActivityViewModel.buildLightRequest("on", speed);
-//                mainActivityViewModel.changeLightStatus(light);
-//            }
-//        });
-//
-//        Button btnOff = findViewById(R.id.btnOff);
-//        btnOff.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Light light = mainActivityViewModel.buildLightRequest("off");
-//                mainActivityViewModel.changeLightStatus(light);
-//            }
-//        });
-
         Button btnInc = findViewById(R.id.increase);
         btnInc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(speed < 5) {
-                    Light lightReq = mainActivityViewModel.buildLightRequest("on", ++speed);
+                    Light lightReq = mainActivityViewModel.buildSpeedRequest(++speed);
                     mainActivityViewModel.changeLightSpeed(lightReq);
                 }
             }
@@ -132,12 +112,28 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
             @Override
             public void onClick(View view) {
                 if(speed > 0) {
-                    Light lightReq = mainActivityViewModel.buildLightRequest("on", --speed);
+                    Light lightReq = mainActivityViewModel.buildSpeedRequest(--speed);
                     mainActivityViewModel.changeLightSpeed(lightReq);
                 }
             }
         });
 
+        nightModeSwitch = findViewById(R.id.nightModeSwitch);
+        nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                Light lightReq = null;
+                if(isChecked) {
+                    onOff.setVisibility(View.INVISIBLE);
+                    lightReq = mainActivityViewModel.buildModeRequest("night");
+                }
+                else {
+                    onOff.setVisibility(View.VISIBLE);
+                    lightReq = mainActivityViewModel.buildModeRequest("default");
+                }
+                mainActivityViewModel.changeMode(lightReq);
+            }
+        });
     }
 
     @Override
@@ -184,43 +180,37 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
     @Override
     public void lightStatusChanged(Light light) {
         Log.d("lightStatusChanged", light.getStatus());
-        TextView lastStatus = findViewById(R.id.lastStatus);
-        lastStatus.setText("Status: " + light.getStatus() + " Interval: " + light.getInterval());
-
-        TextView lblSpeed = findViewById(R.id.lblSpeed);
-        lblSpeed.setText("Speed: " + speed);
-
-        SeekBar speedIndicator = findViewById(R.id.speedBar);
-        speedIndicator.setProgress(speed);
-
         setStatus(light);
     }
 
     @Override
     public void onGetLightStatus(Light light) {
-        TextView lastStatus = findViewById(R.id.lastStatus);
-        if(light == null) {
-            lastStatus.setText("Not able to connect");
-            return;
-        }
         Log.d("lightStatus", light.getStatus());
         TextView statusView = findViewById(R.id.statusView);
-        TextView lblSpeed = findViewById(R.id.lblSpeed);
         statusView.setBackgroundColor(getResources().getColor(R.color.onButtonPressed));
-        lastStatus.setText("Status: " + light.getStatus() + " Interval: " + light.getInterval());
-        speed = light.getSpeed() != null? light.getSpeed() : 0;
-        lblSpeed.setText("Speed: " + speed);
 
-        SeekBar speedIndicator = findViewById(R.id.speedBar);
-        speedIndicator.setProgress(speed);
+        speed = light.getSpeed() != null? light.getSpeed() : 0;
+
+        onOff.setChecked(light.getStatus().equalsIgnoreCase("on"));
+
+        nightModeSwitch.setChecked(light.getMode().equalsIgnoreCase("night"));
 
         setStatus(light);
     }
 
     public void setStatus(Light light) {
-        Switch onOff = findViewById(R.id.switchOnOff);
-        if(light.getStatus().equalsIgnoreCase("on")) {
-            onOff.setChecked(true);
+        TextView lastStatus = findViewById(R.id.lastStatus);
+        if(light == null) {
+            lastStatus.setText("Not able to connect");
+            return;
         }
+
+        lastStatus.setText("Status: " + light.getStatus() + " Interval: " + light.getInterval());
+
+        TextView lblSpeed = findViewById(R.id.lblSpeed);
+        lblSpeed.setText("Speed: " + speed);
+
+        SeekBar speedIndicator = findViewById(R.id.speedBar);
+        speedIndicator.setProgress(speed);
     }
 }
