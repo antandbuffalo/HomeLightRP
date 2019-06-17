@@ -179,12 +179,16 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
 
     @Override
     public void lightStatusChanged(Light light) {
-        Log.d("lightStatusChanged", light.getStatus());
         setStatus(light);
     }
 
     @Override
     public void onGetLightStatus(Light light) {
+        TextView lastStatus = findViewById(R.id.lastStatus);
+        if(light == null) {
+            lastStatus.setText("Not able to connect");
+            return;
+        }
         Log.d("lightStatus", light.getStatus());
         TextView statusView = findViewById(R.id.statusView);
         statusView.setBackgroundColor(getResources().getColor(R.color.onButtonPressed));
