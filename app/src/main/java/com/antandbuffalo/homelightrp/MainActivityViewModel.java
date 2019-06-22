@@ -1,6 +1,7 @@
 package com.antandbuffalo.homelightrp;
 
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
 
 import com.antandbuffalo.homelightrp.constants.QBConfig;
@@ -13,6 +14,7 @@ import com.antandbuffalo.homelightrp.model.SessionResponse;
 import com.antandbuffalo.homelightrp.model.UserLogin;
 import com.antandbuffalo.homelightrp.service.ApiService;
 import com.antandbuffalo.homelightrp.service.RpService;
+import com.antandbuffalo.homelightrp.service.StorageService;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -33,7 +35,12 @@ public class MainActivityViewModel extends ViewModel {
     SessionHandler sessionHandler;
     String ipAddress;
 
-    public void setIpAddress(String ip) {
+    public void initIpAddress(Context context) {
+        ipAddress = StorageService.shared(context).getString("ipAddress");
+    }
+
+    public void setIpAddress(String ip, Context context) {
+        StorageService.shared(context).putString("ipAddress", ip);
         ipAddress = ip;
     }
 

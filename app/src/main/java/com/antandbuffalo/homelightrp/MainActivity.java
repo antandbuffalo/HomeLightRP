@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         mainActivityViewModel.initRetrofit();
         mainActivityViewModel.sessionHandler = this;
         mainActivityViewModel.getLightStatus();
+
+        mainActivityViewModel.initIpAddress(getApplicationContext());
+        EditText ipAddress = findViewById(R.id.ipAddress);
+        ipAddress.setText(mainActivityViewModel.ipAddress);
+
         //mainActivityViewModel.createSession();
 
         SeekBar speedBar = findViewById(R.id.speedBar);
@@ -90,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
             public void onClick(View view) {
                 EditText ipAddress = findViewById(R.id.ipAddress);
                 if(ipAddress != null && ipAddress.getText().toString() != null) {
-                    mainActivityViewModel.setIpAddress(ipAddress.getText().toString());
+                    mainActivityViewModel.setIpAddress(ipAddress.getText().toString(), getApplicationContext());
                     mainActivityViewModel.initRetrofit();
                 }
             }

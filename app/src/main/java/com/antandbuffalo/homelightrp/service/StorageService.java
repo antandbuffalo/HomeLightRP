@@ -7,25 +7,35 @@ public class StorageService {
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    public static StorageService store = new StorageService();
+    static StorageService storageService;
 
-    public StorageService getPreferenceEditor(Context context) {
-        if(store == null) {
-            pref = context.getSharedPreferences("HomeLight", 0); // 0 - for private mode
-            editor = pref.edit();
-            store = new StorageService();
+    private StorageService(){}
+
+    public static StorageService shared(Context context) {
+        if(storageService == null) {
+            storageService = new StorageService();
+            storageService.pref = context.getSharedPreferences("HomeLight", Context.MODE_PRIVATE); // 0 - for private mode
+            storageService.editor = storageService.pref.edit();
         }
-        return store;
+        return storageService;
     }
 
-    public void putInt(String key, int data) {
-        editor.putInt("key_name", data); // Storing integer
-        editor.commit();
+    public boolean putInt(String key, int data) {
+        storageService.editor.putInt(key, data); // Storing integer
+        return storageService.editor.commit();
     }
 
     public int getInt(String key) {
-        return pref.getInt(key, 0);
+        return  storageService.pref.getInt(key, 0);
     }
 
+    public boolean putString(String key, String value) {
+        storageService.editor.putString(key, value);
+        return storageService.editor.commit();
+    }
+
+    public String getString(String key) {
+        return  storageService.pref.getString(key, "192.168.1.230");
+    }
 
 }
