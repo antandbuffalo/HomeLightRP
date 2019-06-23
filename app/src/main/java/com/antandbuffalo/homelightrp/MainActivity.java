@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import com.antandbuffalo.homelightrp.handlers.SessionHandler;
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
+import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.model.Session;
 import com.antandbuffalo.homelightrp.settings.Settings;
 
@@ -116,16 +116,16 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                Light lightReq = null;
+                Mode modeReq = null;
                 if(isChecked) {
                     onOff.setVisibility(View.INVISIBLE);
-                    lightReq = mainActivityViewModel.buildModeRequest("night");
+                    modeReq = mainActivityViewModel.buildModeRequest("night");
                 }
                 else {
                     onOff.setVisibility(View.VISIBLE);
-                    lightReq = mainActivityViewModel.buildModeRequest("default");
+                    modeReq = mainActivityViewModel.buildModeRequest("default");
                 }
-                mainActivityViewModel.changeMode(lightReq);
+                mainActivityViewModel.changeMode(modeReq);
             }
         });
     }
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
     public void messageCreated(Message message) {
         Log.d("messageCreated", message.getMessage());
         TextView lastStatus = findViewById(R.id.lastStatus);
-        lastStatus.setText(message.getMessage());
+        lastStatus.setText("Current Action: " + message.getMessage());
     }
 
     @Override
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
     public void onGetLightStatus(Light light) {
         TextView lastStatus = findViewById(R.id.lastStatus);
         if(light == null) {
-            lastStatus.setText("Not able to connect");
+            lastStatus.setText("Current Action: Not able to connect");
             return;
         }
         Log.d("lightStatus", light.getStatus());
@@ -198,14 +198,24 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         setStatus(light);
     }
 
+    @Override
+    public void onModeChanged(Mode mode) {
+        TextView lastStatus = findViewById(R.id.lastStatus);
+        if(mode == null) {
+            lastStatus.setText("Current Action: Not able to change mode");
+            return;
+        }
+        nightModeSwitch.setChecked(mode.getType().equalsIgnoreCase("night"));
+    }
+
     public void setStatus(Light light) {
         TextView lastStatus = findViewById(R.id.lastStatus);
         if(light == null) {
-            lastStatus.setText("Not able to connect");
+            lastStatus.setText("Current Action: Not able to connect");
             return;
         }
 
-        lastStatus.setText("Status: " + light.getStatus() + " Interval: " + light.getInterval());
+        lastStatus.setText("Current Action: " + light.getStatus() + " Interval: " + light.getInterval());
 
         TextView lblSpeed = findViewById(R.id.lblSpeed);
         lblSpeed.setText("Speed: " + speed);
@@ -213,4 +223,15 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         SeekBar speedIndicator = findViewById(R.id.speedBar);
         speedIndicator.setProgress(speed);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("BACK", "need to refresh here");
+        if(!mainActivityViewModel.isSameIp(this)) {
+            mainActivityViewModel.initIpAddress(this);
+            mainActivityViewModel.initRetrofit();
+        }
+    }
 }
+

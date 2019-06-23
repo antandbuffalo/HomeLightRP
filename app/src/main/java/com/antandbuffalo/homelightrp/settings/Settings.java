@@ -46,6 +46,12 @@ public class Settings extends AppCompatActivity {
                     case 0: {
                         Intent intent = new Intent(Settings.this, IpSetting.class);
                         startActivity(intent);
+                        break;
+                    }
+                    case 1: {
+                        Intent intent = new Intent(Settings.this, TimeSetting.class);
+                        startActivity(intent);
+                        break;
                     }
                 }
             }

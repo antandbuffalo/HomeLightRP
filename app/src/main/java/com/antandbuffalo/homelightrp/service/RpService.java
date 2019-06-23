@@ -2,6 +2,7 @@ package com.antandbuffalo.homelightrp.service;
 
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
+import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.model.SessionRequest;
 import com.antandbuffalo.homelightrp.model.SessionResponse;
 
@@ -21,7 +22,10 @@ public interface RpService {
     Single<Light> changeSpeed(@Body Light light);
 
     @POST("mode")
-    Single<Light> changeMode(@Body Light light);
+    Single<Mode> changeMode(@Body Mode mode);
+
+    @POST("mode")
+    Single<Mode> changeModeTime(@Body Mode mode);
 
     @GET("light")
     Single<Light> getStatus();

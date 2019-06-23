@@ -11,4 +11,7 @@ public class IpSettingViewModel extends ViewModel {
         return StorageService.shared(context).getString("ipAddress");
     }
 
+    public void initRetrofit() {
+
+    }
 }

@@ -8,6 +8,7 @@ import com.antandbuffalo.homelightrp.constants.QBConfig;
 import com.antandbuffalo.homelightrp.handlers.SessionHandler;
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
+import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.model.Session;
 import com.antandbuffalo.homelightrp.model.SessionRequest;
 import com.antandbuffalo.homelightrp.model.SessionResponse;
@@ -37,6 +38,10 @@ public class MainActivityViewModel extends ViewModel {
 
     public void initIpAddress(Context context) {
         ipAddress = StorageService.shared(context).getString("ipAddress");
+    }
+
+    public boolean isSameIp(Context context) {
+        return StorageService.shared(context).getString("ipAddress").equalsIgnoreCase(ipAddress);
     }
 
     public void initRetrofit() {
@@ -176,20 +181,20 @@ public class MainActivityViewModel extends ViewModel {
                 });
     };
 
-    public void changeMode(Light light) {
-        rpService.changeMode(light)
+    public void changeMode(Mode mode) {
+        rpService.changeMode(mode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Light>() {
+                .subscribe(new SingleObserver<Mode>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onSuccess(Light lightSuccess) {
-                        Log.d("Mode-onSuccess", lightSuccess.getMode());
-                        sessionHandler.lightStatusChanged(lightSuccess);
+                    public void onSuccess(Mode cmSuccess) {
+                        Log.d("Mode-onSuccess", cmSuccess.getType());
+                        sessionHandler.onModeChanged(cmSuccess);
                     }
 
                     @Override
@@ -243,10 +248,10 @@ public class MainActivityViewModel extends ViewModel {
         return light;
     }
 
-    public Light buildModeRequest(String mode) {
-        Light light = new Light();
-        light.setMode(mode);
-        return light;
+    public Mode buildModeRequest(String modeType) {
+        Mode mode = new Mode();
+        mode.setType(modeType);
+        return mode;
     }
 
     public Light buildLightRequest(String status, Integer speed) {
