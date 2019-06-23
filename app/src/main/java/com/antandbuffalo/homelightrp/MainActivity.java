@@ -1,6 +1,7 @@
 package com.antandbuffalo.homelightrp;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import com.antandbuffalo.homelightrp.handlers.SessionHandler;
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
 import com.antandbuffalo.homelightrp.model.Session;
+import com.antandbuffalo.homelightrp.settings.Settings;
 
 public class MainActivity extends AppCompatActivity implements SessionHandler {
     Session session;
@@ -50,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         mainActivityViewModel.getLightStatus();
 
         mainActivityViewModel.initIpAddress(getApplicationContext());
-        EditText ipAddress = findViewById(R.id.ipAddress);
-        ipAddress.setText(mainActivityViewModel.ipAddress);
 
         //mainActivityViewModel.createSession();
 
@@ -86,18 +86,6 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
                 else {
                     Light lightReq = mainActivityViewModel.buildLightRequest("off", speed);
                     mainActivityViewModel.changeLightStatus(lightReq);
-                }
-            }
-        });
-
-        Button btnSetIp = findViewById(R.id.setIp);
-        btnSetIp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText ipAddress = findViewById(R.id.ipAddress);
-                if(ipAddress != null && ipAddress.getText().toString() != null) {
-                    mainActivityViewModel.setIpAddress(ipAddress.getText().toString(), getApplicationContext());
-                    mainActivityViewModel.initRetrofit();
                 }
             }
         });
@@ -158,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settings = new Intent(this, Settings.class);
+            startActivity(settings);
             return true;
         }
 

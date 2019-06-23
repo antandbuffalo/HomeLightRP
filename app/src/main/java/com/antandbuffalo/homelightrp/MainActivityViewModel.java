@@ -39,11 +39,6 @@ public class MainActivityViewModel extends ViewModel {
         ipAddress = StorageService.shared(context).getString("ipAddress");
     }
 
-    public void setIpAddress(String ip, Context context) {
-        StorageService.shared(context).putString("ipAddress", ip);
-        ipAddress = ip;
-    }
-
     public void initRetrofit() {
         if(ipAddress == null) {
             ipAddress = "192.168.1.230";

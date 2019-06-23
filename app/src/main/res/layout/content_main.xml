@@ -10,12 +10,14 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="165dp"
+        android:layout_width="0dp"
         android:layout_height="26dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
         android:text="Connection Status"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/statusView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,84 +25,57 @@
         android:id="@+id/statusView"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
         android:background="@android:color/holo_red_dark"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/lastStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="25dp"
-        android:text="Status"
-        android:textAlignment="center"
+        android:text="Current Action"
+        android:textAlignment="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/ipAddress"
-        android:layout_width="282dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
-        android:ems="10"
-        android:hint="IP Address"
-        android:inputType="textPersonName"
-        android:text="192.168.1.230"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/setIp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/default_button"
-        android:text="Set"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ipAddress"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/decrease"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/dec_button"
         android:text="-"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 
     <Button
         android:id="@+id/increase"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/inc_button"
         android:text="+"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 
     <TextView
         android:id="@+id/lblSpeed"
         android:layout_width="92dp"
         android:layout_height="38dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:text="Speed"
         android:textAlignment="center"
@@ -108,49 +83,54 @@
         app:layout_constraintEnd_toStartOf="@+id/increase"
         app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toEndOf="@+id/decrease"
-        app:layout_constraintTop_toBottomOf="@+id/ipAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
 
     <SeekBar
         android:id="@+id/speedBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="10dp"
         android:max="5"
         android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/decrease" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/switchOnOff"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
         android:switchMinWidth="40dp"
         android:switchPadding="10dp"
         android:text="Light "
         android:textOff="OFF"
         android:textOn="ON"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speedBar" />
+        app:layout_constraintTop_toBottomOf="@+id/lblSpeed" />
 
     <Switch
         android:id="@+id/nightModeSwitch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="140dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
         android:switchMinWidth="40dp"
         android:switchPadding="10dp"
         android:text="Night Mode"
         android:textOff="OFF"
         android:textOn="ON"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchOnOff" />
 
