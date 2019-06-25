@@ -10,15 +10,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.homelightrp.R;
 import com.antandbuffalo.homelightrp.handlers.SessionHandler;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.service.StorageService;
+import com.bozapro.circularsliderrange.CircularSliderRange;
+import com.bozapro.circularsliderrange.ThumbEvent;
 
 public class TimeSetting extends AppCompatActivity implements SessionHandler {
     TimeSettingViewModel timeSettingViewModel;
+    TextView onTime, offTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,36 @@ public class TimeSetting extends AppCompatActivity implements SessionHandler {
 
         timeSettingViewModel.initRetrofit(this);
         timeSettingViewModel.sessionHandler = this;
+
+        onTime = findViewById(R.id.onTime);
+        offTime = findViewById(R.id.offTime);
+
+        // 360 / 24 = 15
+
+        CircularSliderRange sliderRange = (CircularSliderRange) findViewById(R.id.circular);
+        sliderRange.setOnSliderRangeMovedListener(new CircularSliderRange.OnSliderRangeMovedListener() {
+            @Override
+            public void onStartSliderMoved(double pos) {
+                Log.d("------------", "onStartSliderMoved:" + pos);
+                onTime.setText((pos / 15) + "");
+            }
+
+            @Override
+            public void onEndSliderMoved(double pos) {
+                Log.d("------------", "onEndSliderMoved:" + pos);
+                offTime.setText((pos / 15) + "");
+            }
+
+            @Override
+            public void onStartSliderEvent(ThumbEvent event) {
+                Log.d("============", "onStartSliderEvent:" + event);
+            }
+
+            @Override
+            public void onEndSliderEvent(ThumbEvent event) {
+                Log.d("============", "onEndSliderEvent:" + event);
+            }
+        });
     }
 
 
