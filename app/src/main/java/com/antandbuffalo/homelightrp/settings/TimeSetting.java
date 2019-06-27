@@ -20,9 +20,12 @@ import com.antandbuffalo.homelightrp.service.StorageService;
 import com.bozapro.circularsliderrange.CircularSliderRange;
 import com.bozapro.circularsliderrange.ThumbEvent;
 
+import java.sql.Time;
+
 public class TimeSetting extends AppCompatActivity implements SessionHandler {
     TimeSettingViewModel timeSettingViewModel;
     TextView onTime, offTime;
+    int onTimeHrs, offTimeHrs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +51,15 @@ public class TimeSetting extends AppCompatActivity implements SessionHandler {
             @Override
             public void onStartSliderMoved(double pos) {
                 Log.d("------------", "onStartSliderMoved:" + pos);
-                onTime.setText((pos / 15) + "");
+                onTimeHrs = (int)(pos / 15);
+                onTime.setText(onTimeHrs + " HRS");
             }
 
             @Override
             public void onEndSliderMoved(double pos) {
                 Log.d("------------", "onEndSliderMoved:" + pos);
-                offTime.setText((pos / 15) + "");
+                offTimeHrs = (int)(pos / 15);
+                offTime.setText(offTimeHrs + " HRS");
             }
 
             @Override
@@ -86,7 +91,7 @@ public class TimeSetting extends AppCompatActivity implements SessionHandler {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            Mode mode = timeSettingViewModel.buildChangeModeTimeRequest(18, 22);
+            Mode mode = timeSettingViewModel.buildChangeModeTimeRequest(onTimeHrs, offTimeHrs);
             timeSettingViewModel.changeModeTime(mode);
             return true;
         }
