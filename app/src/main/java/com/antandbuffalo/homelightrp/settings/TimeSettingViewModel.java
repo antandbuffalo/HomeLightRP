@@ -4,12 +4,10 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
 
-import com.antandbuffalo.homelightrp.handlers.SessionHandler;
+import com.antandbuffalo.homelightrp.handlers.ApiHandler;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.service.RpService;
 import com.antandbuffalo.homelightrp.service.StorageService;
-
-import java.util.Optional;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -22,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TimeSettingViewModel extends ViewModel {
     Retrofit retrofit;
     RpService rpService;
-    SessionHandler sessionHandler;
+    ApiHandler sessionHandler;
 
     public void initRetrofit(Context context) {
         String ipAddress = StorageService.shared(context).getString("ipAddress");

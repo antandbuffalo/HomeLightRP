@@ -5,7 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.antandbuffalo.homelightrp.constants.QBConfig;
-import com.antandbuffalo.homelightrp.handlers.SessionHandler;
+import com.antandbuffalo.homelightrp.handlers.ApiHandler;
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
 import com.antandbuffalo.homelightrp.model.Mode;
@@ -18,7 +18,6 @@ import com.antandbuffalo.homelightrp.service.RpService;
 import com.antandbuffalo.homelightrp.service.StorageService;
 
 import java.util.Date;
-import java.util.function.Function;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -33,7 +32,7 @@ public class MainActivityViewModel extends ViewModel {
     ApiService apiService;
     RpService rpService;
     Session session;
-    SessionHandler sessionHandler;
+    ApiHandler apiHandler;
     String ipAddress;
 
     public void initIpAddress(Context context) {
@@ -101,7 +100,7 @@ public class MainActivityViewModel extends ViewModel {
                     public void onSuccess(SessionResponse sessionResponse) {
                         session = sessionResponse.getSession();
                         System.out.println(sessionResponse.getSession());
-                        sessionHandler.sessionCreated(session);
+                        apiHandler.sessionCreated(session);
 
                     }
 
@@ -125,7 +124,7 @@ public class MainActivityViewModel extends ViewModel {
                      @Override
                      public void onSuccess(Message message) {
                          System.out.println(message.getMessage());
-                         sessionHandler.messageCreated(message);
+                         apiHandler.messageCreated(message);
                      }
 
                      @Override
@@ -148,7 +147,7 @@ public class MainActivityViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Light lightSuccess) {
                         Log.d("changeStatus-onSuccess", lightSuccess.getStatus());
-                        sessionHandler.lightStatusChanged(lightSuccess);
+                        apiHandler.lightStatusChanged(lightSuccess);
                     }
 
                     @Override
@@ -171,7 +170,7 @@ public class MainActivityViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Light lightSuccess) {
                         Log.d("Speed-onSuccess", lightSuccess.getStatus());
-                        sessionHandler.lightStatusChanged(lightSuccess);
+                        apiHandler.lightStatusChanged(lightSuccess);
                     }
 
                     @Override
@@ -194,7 +193,7 @@ public class MainActivityViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Mode cmSuccess) {
                         Log.d("Mode-onSuccess", cmSuccess.getType());
-                        sessionHandler.onModeChanged(cmSuccess);
+                        apiHandler.onModeChanged(cmSuccess);
                     }
 
                     @Override
@@ -217,13 +216,13 @@ public class MainActivityViewModel extends ViewModel {
                     @Override
                     public void onSuccess(Light lightSuccess) {
                         Log.d("Speed-onSuccess", lightSuccess.getStatus());
-                        sessionHandler.onGetLightStatus(lightSuccess);
+                        apiHandler.onGetLightStatus(lightSuccess);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d("Speed-onError", e.getMessage());
-                        sessionHandler.onGetLightStatus(null);
+                        apiHandler.onGetLightStatus(null);
                     }
                 });
     }

@@ -3,8 +3,6 @@ package com.antandbuffalo.homelightrp;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,14 +15,14 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.antandbuffalo.homelightrp.handlers.SessionHandler;
+import com.antandbuffalo.homelightrp.handlers.ApiHandler;
 import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Message;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.model.Session;
 import com.antandbuffalo.homelightrp.settings.Settings;
 
-public class MainActivity extends AppCompatActivity implements SessionHandler {
+public class MainActivity extends AppCompatActivity implements ApiHandler {
     Session session;
     MainActivityViewModel mainActivityViewModel;
     int speed = 0;
@@ -36,24 +34,12 @@ public class MainActivity extends AppCompatActivity implements SessionHandler {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        mainActivityViewModel.initIpAddress(getApplicationContext());
         mainActivityViewModel.initRetrofit();
-        mainActivityViewModel.sessionHandler = this;
+        mainActivityViewModel.apiHandler = this;
         mainActivityViewModel.getLightStatus();
 
-        mainActivityViewModel.initIpAddress(getApplicationContext());
-
-        //mainActivityViewModel.createSession();
 
         SeekBar speedBar = findViewById(R.id.speedBar);
         speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

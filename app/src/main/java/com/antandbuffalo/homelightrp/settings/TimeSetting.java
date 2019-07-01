@@ -2,27 +2,21 @@ package com.antandbuffalo.homelightrp.settings;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.homelightrp.R;
-import com.antandbuffalo.homelightrp.handlers.SessionHandler;
+import com.antandbuffalo.homelightrp.handlers.ApiHandler;
 import com.antandbuffalo.homelightrp.model.Mode;
-import com.antandbuffalo.homelightrp.service.StorageService;
 import com.bozapro.circularsliderrange.CircularSliderRange;
 import com.bozapro.circularsliderrange.ThumbEvent;
 
-import java.sql.Time;
-
-public class TimeSetting extends AppCompatActivity implements SessionHandler {
+public class TimeSetting extends AppCompatActivity implements ApiHandler {
     TimeSettingViewModel timeSettingViewModel;
     TextView onTime, offTime;
     int onTimeHrs, offTimeHrs;

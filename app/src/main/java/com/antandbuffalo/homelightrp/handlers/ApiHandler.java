@@ -5,7 +5,7 @@ import com.antandbuffalo.homelightrp.model.Message;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.model.Session;
 
-public interface SessionHandler {
+public interface ApiHandler {
     default  public void sessionCreated(Session session) {};
 
     default public void messageCreated(Message message) {};
