@@ -3,11 +3,7 @@ package com.antandbuffalo.homelightrp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Mode {
-
-    @SerializedName("type")
-    @Expose
-    private String type;
+public class Duration {
 
     @SerializedName("startTime")
     @Expose
@@ -16,14 +12,6 @@ public class Mode {
     @SerializedName("stopTime")
     @Expose
     private int stopTime;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public int getStartTime() {
         return startTime;

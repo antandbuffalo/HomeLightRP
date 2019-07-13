@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.antandbuffalo.homelightrp.R;
 import com.antandbuffalo.homelightrp.handlers.ApiHandler;
+import com.antandbuffalo.homelightrp.model.Duration;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.bozapro.circularsliderrange.CircularSliderRange;
 import com.bozapro.circularsliderrange.ThumbEvent;
@@ -19,7 +20,7 @@ import com.bozapro.circularsliderrange.ThumbEvent;
 public class TimeSetting extends AppCompatActivity implements ApiHandler {
     TimeSettingViewModel timeSettingViewModel;
     TextView onTime, offTime;
-    int onTimeHrs, offTimeHrs;
+    int onTimeHrs = 18, offTimeHrs = 22;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +86,8 @@ public class TimeSetting extends AppCompatActivity implements ApiHandler {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            Mode mode = timeSettingViewModel.buildChangeModeTimeRequest(onTimeHrs, offTimeHrs);
-            timeSettingViewModel.changeModeTime(mode);
+            Duration duration = timeSettingViewModel.buildChangeDurationRequest(onTimeHrs, offTimeHrs);
+            timeSettingViewModel.changeDuration(duration);
             return true;
         }
 
@@ -100,9 +101,9 @@ public class TimeSetting extends AppCompatActivity implements ApiHandler {
     }
 
     @Override
-    public void onModeChanged(Mode mode) {
-        if(mode == null) {
-            Log.d("MODE", "onModeChanged: Error occured");
+    public void onDurationChanged(Duration duration) {
+        if(duration == null) {
+            Log.d("Duration", "onDurationChanged: Error occured");
             return;
         }
         Toast.makeText(TimeSetting.this, "Timing changed successfully", Toast.LENGTH_SHORT).show();

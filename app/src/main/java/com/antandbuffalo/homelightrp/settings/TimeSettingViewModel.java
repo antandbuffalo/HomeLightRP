@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.antandbuffalo.homelightrp.handlers.ApiHandler;
+import com.antandbuffalo.homelightrp.model.Duration;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.service.RpService;
 import com.antandbuffalo.homelightrp.service.StorageService;
@@ -32,21 +33,21 @@ public class TimeSettingViewModel extends ViewModel {
         rpService = retrofit.create(RpService.class);
     }
 
-    public void changeModeTime(Mode mode) {
-        rpService.changeModeTime(mode)
+    public void changeDuration(Duration duration) {
+        rpService.changeDuration(duration)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Mode>() {
+                .subscribe(new SingleObserver<Duration>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onSuccess(Mode cmSuccess) {
-                        Log.d("Mode-onSuccess", cmSuccess.getType());
+                    public void onSuccess(Duration cdSuccess) {
+                        Log.d("Mode-onSuccess", cdSuccess.getStartTime() + "");
                         if(sessionHandler != null) {
-                            sessionHandler.onModeChanged(cmSuccess);
+                            sessionHandler.onDurationChanged(cdSuccess);
                         }
                     }
 
@@ -57,10 +58,17 @@ public class TimeSettingViewModel extends ViewModel {
                 });
     }
 
-    public Mode buildChangeModeTimeRequest(int startTime, int endTime) {
+    public Duration buildChangeDurationRequest(int startTime, int stopTime) {
+        Duration duration = new Duration();
+        duration.setStartTime(startTime);
+        duration.setStopTime(stopTime);
+        return duration;
+    }
+
+    public Mode buildChangeModeTimeRequest(int startTime, int stopTime) {
         Mode mode = new Mode();
         mode.setStartTime(startTime);
-        mode.setEndTime(endTime);
+        mode.setStopTime(stopTime);
         return mode;
     }
 
