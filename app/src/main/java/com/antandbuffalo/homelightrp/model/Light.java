@@ -7,6 +7,7 @@ public class Light {
     @SerializedName("status")
     @Expose
     private String status;
+
     @SerializedName("interval")
     @Expose
     private String interval;
@@ -19,6 +20,13 @@ public class Light {
     @Expose
     private String mode;
 
+    @SerializedName("startTime")
+    @Expose
+    private Integer startTime;
+
+    @SerializedName("stopTime")
+    @Expose
+    private Integer stopTime;
 
     public String getStatus() {
         if(status == null) {
@@ -56,5 +64,21 @@ public class Light {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public Integer getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Integer startTime) {
+        this.startTime = startTime;
+    }
+
+    public Integer getStopTime() {
+        return stopTime;
+    }
+
+    public void setStopTime(Integer stopTime) {
+        this.stopTime = stopTime;
     }
 }

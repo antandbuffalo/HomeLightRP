@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
     MainActivityViewModel mainActivityViewModel;
     int speed = 0;
     Switch onOff, nightModeSwitch;
+    ProgressBar spinner;
+    TextView statusView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +37,15 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        spinner = findViewById(R.id.spinner);
+        statusView = findViewById(R.id.statusView);
+        statusView.setVisibility(View.INVISIBLE);
+
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         mainActivityViewModel.initIpAddress(getApplicationContext());
         mainActivityViewModel.initRetrofit();
         mainActivityViewModel.apiHandler = this;
         mainActivityViewModel.getLightStatus();
-
 
         SeekBar speedBar = findViewById(R.id.speedBar);
         speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -99,6 +105,13 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
         });
 
         nightModeSwitch = findViewById(R.id.nightModeSwitch);
+        nightModeSwitch.setText("Night Mode ("
+                + mainActivityViewModel.getLightStatus(this).getStartTime()
+                + " Hrs to "
+                + mainActivityViewModel.getLightStatus(this).getStopTime()
+                + " Hrs"
+                +")");
+
         nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -141,38 +154,22 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
     }
 
     @Override
-    public void sessionCreated(Session sess) {
-        session = sess;
-        System.out.println("Token is " + session.getToken());
-        TextView statusView = findViewById(R.id.statusView);
-//        Button onButton = findViewById(R.id.btnOn);
-//        Button offButton = findViewById(R.id.btnOff);
-//        statusView.setBackgroundColor(getResources().getColor(R.color.onButtonPressed));
-//        onButton.setEnabled(true);
-//        offButton.setEnabled(true);
-    }
-
-    @Override
-    public void messageCreated(Message message) {
-        Log.d("messageCreated", message.getMessage());
-        TextView lastStatus = findViewById(R.id.lastStatus);
-        lastStatus.setText("Current Action: " + message.getMessage());
-    }
-
-    @Override
     public void lightStatusChanged(Light light) {
         setStatus(light);
     }
 
     @Override
     public void onGetLightStatus(Light light) {
+        spinner.setVisibility(View.INVISIBLE);
+        statusView.setVisibility(View.VISIBLE);
         TextView lastStatus = findViewById(R.id.lastStatus);
         if(light == null) {
             lastStatus.setText("Current Action: Not able to connect");
+            statusView.setBackgroundColor(getResources().getColor(R.color.offButtonPressed));
             return;
         }
         Log.d("lightStatus", light.getStatus());
-        TextView statusView = findViewById(R.id.statusView);
+
         statusView.setBackgroundColor(getResources().getColor(R.color.onButtonPressed));
 
         speed = light.getSpeed() != null? light.getSpeed() : 0;
@@ -182,16 +179,20 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
         nightModeSwitch.setChecked(light.getMode().equalsIgnoreCase("night"));
 
         setStatus(light);
+
+        mainActivityViewModel.saveLightStatus(this, light);
     }
 
     @Override
-    public void onModeChanged(Mode mode) {
+    public void onModeChanged(Light light) {
         TextView lastStatus = findViewById(R.id.lastStatus);
-        if(mode == null) {
+        if(light == null) {
             lastStatus.setText("Current Action: Not able to change mode");
             return;
         }
-        nightModeSwitch.setChecked(mode.getType().equalsIgnoreCase("night"));
+        nightModeSwitch.setChecked(light.getMode().equalsIgnoreCase("night"));
+        mainActivityViewModel.saveLightStatus(this, light);
+        updateUI(light);
     }
 
     public void setStatus(Light light) {
@@ -201,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
             return;
         }
 
-        lastStatus.setText("Current Action: " + light.getStatus() + " Interval: " + light.getInterval());
+        lastStatus.setText("Current Action: " + light.getStatus());
 
         TextView lblSpeed = findViewById(R.id.lblSpeed);
         lblSpeed.setText("Speed: " + speed);
@@ -218,6 +219,18 @@ public class MainActivity extends AppCompatActivity implements ApiHandler {
             mainActivityViewModel.initIpAddress(this);
             mainActivityViewModel.initRetrofit();
         }
+        statusView.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.VISIBLE);
+        mainActivityViewModel.getLightStatus();
+    }
+
+    private void updateUI(Light light) {
+        SeekBar speedIndicator = findViewById(R.id.speedBar);
+        speedIndicator.setProgress(light.getSpeed());
+        TextView lblSpeed = findViewById(R.id.lblSpeed);
+        lblSpeed.setText("Speed: " + light.getSpeed());
+        onOff.setChecked(light.getStatus().equalsIgnoreCase("on"));
+        nightModeSwitch.setChecked(light.getMode().equalsIgnoreCase("night"));
     }
 }
 

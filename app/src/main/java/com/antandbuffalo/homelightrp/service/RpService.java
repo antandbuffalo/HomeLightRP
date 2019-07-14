@@ -23,7 +23,7 @@ public interface RpService {
     Single<Light> changeSpeed(@Body Light light);
 
     @POST("mode")
-    Single<Mode> changeMode(@Body Mode mode);
+    Single<Light> changeMode(@Body Mode mode);
 
     @POST("duration")
     Single<Duration> changeDuration(@Body Duration duration);

@@ -3,6 +3,8 @@ package com.antandbuffalo.homelightrp.service;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.antandbuffalo.homelightrp.model.Light;
+
 public class StorageService {
 
     SharedPreferences pref;
@@ -38,4 +40,21 @@ public class StorageService {
         return  storageService.pref.getString(key, "192.168.1.230");
     }
 
+    public boolean setLight(Light light) {
+        storageService.editor.putString("status", light.getStatus());
+        storageService.editor.putString("mode", light.getMode());
+        storageService.editor.putInt("startTime", light.getStartTime());
+        storageService.editor.putInt("stopTime", light.getStopTime());
+        storageService.editor.putInt("speed", light.getSpeed());
+        return storageService.editor.commit();
+    }
+    public Light getLight() {
+        Light light = new Light();
+        light.setStatus(storageService.pref.getString("status", "off"));
+        light.setMode(storageService.pref.getString("mode", "default"));
+        light.setStartTime(storageService.pref.getInt("startTime", 18));
+        light.setStopTime(storageService.pref.getInt("stopTime", 22));
+        light.setSpeed(storageService.pref.getInt("speed", 0));
+        return light;
+    }
 }

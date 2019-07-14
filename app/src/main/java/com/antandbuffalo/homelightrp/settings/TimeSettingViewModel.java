@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.antandbuffalo.homelightrp.handlers.ApiHandler;
 import com.antandbuffalo.homelightrp.model.Duration;
+import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.antandbuffalo.homelightrp.service.RpService;
 import com.antandbuffalo.homelightrp.service.StorageService;
@@ -65,11 +66,21 @@ public class TimeSettingViewModel extends ViewModel {
         return duration;
     }
 
-    public Mode buildChangeModeTimeRequest(int startTime, int stopTime) {
-        Mode mode = new Mode();
-        mode.setStartTime(startTime);
-        mode.setStopTime(stopTime);
-        return mode;
+    public Light getLightStatus(Context context) {
+        return StorageService.shared(context).getLight();
+    }
+
+    public boolean updateLightStatus(Context context, Light light) {
+        return StorageService.shared(context).setLight(light);
+    }
+
+
+    public double getStartAngle(Context context) {
+        return StorageService.shared(context).getLight().getStartTime() * 15;
+    }
+
+    public double getStopAngle(Context context) {
+        return StorageService.shared(context).getLight().getStopTime() * 15;
     }
 
 }

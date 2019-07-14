@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.antandbuffalo.homelightrp.R;
 import com.antandbuffalo.homelightrp.handlers.ApiHandler;
 import com.antandbuffalo.homelightrp.model.Duration;
+import com.antandbuffalo.homelightrp.model.Light;
 import com.antandbuffalo.homelightrp.model.Mode;
 import com.bozapro.circularsliderrange.CircularSliderRange;
 import com.bozapro.circularsliderrange.ThumbEvent;
@@ -28,6 +29,8 @@ public class TimeSetting extends AppCompatActivity implements ApiHandler {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        CircularSliderRange sliderRange = (CircularSliderRange) findViewById(R.id.circular);
+
         timeSettingViewModel = ViewModelProviders.of(this).get(TimeSettingViewModel.class);
 
         assert getSupportActionBar() != null;   //null check
@@ -39,22 +42,27 @@ public class TimeSetting extends AppCompatActivity implements ApiHandler {
         onTime = findViewById(R.id.onTime);
         offTime = findViewById(R.id.offTime);
 
+        sliderRange.setStartAngle(timeSettingViewModel.getStartAngle(this));
+        sliderRange.setEndAngle(timeSettingViewModel.getStopAngle(this));
+
+        onTime.setText(timeSettingViewModel.getLightStatus(this).getStartTime() + " Hrs");
+        offTime.setText(timeSettingViewModel.getLightStatus(this).getStopTime() + " Hrs");
+
         // 360 / 24 = 15
 
-        CircularSliderRange sliderRange = (CircularSliderRange) findViewById(R.id.circular);
         sliderRange.setOnSliderRangeMovedListener(new CircularSliderRange.OnSliderRangeMovedListener() {
             @Override
             public void onStartSliderMoved(double pos) {
                 Log.d("------------", "onStartSliderMoved:" + pos);
                 onTimeHrs = (int)(pos / 15);
-                onTime.setText(onTimeHrs + " HRS");
+                onTime.setText(onTimeHrs + " Hrs");
             }
 
             @Override
             public void onEndSliderMoved(double pos) {
                 Log.d("------------", "onEndSliderMoved:" + pos);
                 offTimeHrs = (int)(pos / 15);
-                offTime.setText(offTimeHrs + " HRS");
+                offTime.setText(offTimeHrs + " Hrs");
             }
 
             @Override
@@ -106,6 +114,10 @@ public class TimeSetting extends AppCompatActivity implements ApiHandler {
             Log.d("Duration", "onDurationChanged: Error occured");
             return;
         }
+        Light light = timeSettingViewModel.getLightStatus(this);
+        light.setStartTime(onTimeHrs);
+        light.setStopTime(offTimeHrs);
+        timeSettingViewModel.updateLightStatus(this, light);
         Toast.makeText(TimeSetting.this, "Timing changed successfully", Toast.LENGTH_SHORT).show();
     }
 }
